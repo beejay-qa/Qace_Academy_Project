@@ -1,0 +1,2855 @@
+{
+  "info": {
+    "_postman_id": "e1584e30-25ac-453f-860f-984bf41da2da",
+    "name": "Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48908654",
+    "_collection_link": "https://go.postman.co/collection/48908654-e1584e30-25ac-453f-860f-984bf41da2da?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Register",
+          "item": [
+            {
+              "name": "Register",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"created\");\r",
+                      "});\r",
+                      "let response = pm.response.json();\r",
+                      "pm.environment.set(\"user_id\", response.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Generate random string\r",
+                      "function randomString(length) {\r",
+                      "    return Math.random().toString(36).substring(2, 2 + length);\r",
+                      "}\r",
+                      "\r",
+                      "// Generate random values\r",
+                      "let firstName = randomString(6);\r",
+                      "let lastName = randomString(6);\r",
+                      "let email = firstName + \".\" + lastName + \"@gmail.com\";\r",
+                      "\r",
+                      "// Save as Environment Variables\r",
+                      "pm.environment.set(\"first_name\", firstName);\r",
+                      "pm.environment.set(\"last_name\", lastName);\r",
+                      "pm.environment.set(\"email\", email);\r",
+                      "\r",
+                      "// Optional: log to console\r",
+                      "console.log(\"First Name:\", firstName);\r",
+                      "console.log(\"Last Name:\", lastName);\r",
+                      "console.log(\"Email:\", email);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"first_name\": \"{{first_name}}\",\r\n    \"last_name\": \"{{last_name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"SuperSecure@123\",\r\n    \"address\": {\r\n        \"street\": \"Street 1\",\r\n        \"city\": \"City\",\r\n        \"state\": \"State\",\r\n        \"country\": \"Country\",\r\n        \"postal_code\": \"1234AA\"\r\n    },\r\n    \"phone\": \"0987654321\",\r\n    \"dob\": \"1970-01-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/users/register",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "item": [
+            {
+              "name": "Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+                      "});\r",
+                      "\r",
+                      "const jsonData = pm.response.json();\r",
+                      "if (jsonData.access_token) {\r",
+                      "    pm.environment.set(\"access_token\", jsonData.access_token);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"customer@practicesoftwaretesting.com\",\r\n  \"password\": \"welcome01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/users/login",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Forgot Password",
+          "item": [
+            {
+              "name": "Forgot password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"success\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"customer@practicesoftwaretesting.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/users/forgot-password",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "forgot-password"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Change Password",
+          "item": [
+            {
+              "name": "Change Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"current_password\": \"welcome01\",\r\n  \"new_password\": \"welcome02\",\r\n  \"new_password_confirmation\": \"welcome02\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/user/change-password",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "user",
+                    "change-password"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Me",
+          "item": [
+            {
+              "name": "Retrieve current customer info",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/users/me",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "me"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "item": [
+            {
+              "name": "Logout",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/users/logout",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Refresh",
+          "item": [
+            {
+              "name": "Retrieve a refresh token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/users/refresh",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "refresh"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UserID",
+          "item": [
+            {
+              "name": "Retrieve a specific user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/users/{{user_id}}",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update a specific user",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"first_name\": \"{{first_name}}\",\r\n    \"last_name\": \"{{last_name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"SuperSecure@123\",\r\n    \"address\": {\r\n        \"street\": \"Street 1\",\r\n        \"city\": \"City\",\r\n        \"state\": \"State\",\r\n        \"country\": \"Country\",\r\n        \"postal_code\": \"1234AA\"\r\n    },\r\n    \"phone\": \"0987654321\",\r\n    \"dob\": \"1970-01-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/users/{{user_id}}",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Partially update a specific user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"first_name\": \"{{first_name}}\",\r\n    \"last_name\": \"{{last_name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"SuperSecure@123\",\r\n    \"address\": {\r\n        \"street\": \"Street 1\",\r\n        \"city\": \"City\",\r\n        \"state\": \"State\",\r\n        \"country\": \"Country\",\r\n        \"postal_code\": \"1234AA\"\r\n    },\r\n    \"phone\": \"0987654321\",\r\n    \"dob\": \"1970-01-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/users/{{user_id}}",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Specific User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseurl}}/users/{{user_id}}",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Search",
+          "item": [
+            {
+              "name": "Retrieve specific users matching the search query",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all users",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Brands",
+      "item": [
+        {
+          "name": "Brands",
+          "item": [
+            {
+              "name": "Store new brand",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});\r",
+                      "let response = pm.response.json();\r",
+                      "pm.environment.set(\"id\", response.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Function to generate random string\r",
+                      "function randomString(length) {\r",
+                      "    const chars = \"abcdefghijklmnopqrstuvwxyz\";\r",
+                      "    let result = \"\";\r",
+                      "    for (let i = 0; i < length; i++) {\r",
+                      "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+                      "    }\r",
+                      "    return result;\r",
+                      "}\r",
+                      "\r",
+                      "// Generate random brand name\r",
+                      "let brandName = \"brand-\" + randomString(5);\r",
+                      "\r",
+                      "// Generate slug (lowercase & replace spaces with hyphen)\r",
+                      "let slug = brandName.toLowerCase().replace(/\\s+/g, \"-\");\r",
+                      "\r",
+                      "// Save to environment variables\r",
+                      "pm.environment.set(\"brand_name\", brandName);\r",
+                      "pm.environment.set(\"brand_slug\", slug);\r",
+                      "\r",
+                      "// Optional console log\r",
+                      "console.log(\"Brand Name:\", brandName);\r",
+                      "console.log(\"Slug:\", slug);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"{{brand_name}}\",\r\n  \"slug\": \"{{brand_slug}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/brands",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "brands"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve a specific user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/brands/{{id}}",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "brands",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all brands",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"name\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/brands",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "brands"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete specific brand",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/brands/{{id}}",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "brands",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Partially update a specific brand",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"success\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\"name\": \"{{brand_name}}\",\r\n  \"slug\": \"{{brand_slug}}\",\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/brands/{{id}}\n",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "brands",
+                    "{{id}}\n"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update specific brand",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"success\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\"name\": \"{{brand_name}}\",\r\n  \"slug\": \"{{brand_slug}}\",\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/brands/{{id}}",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "brands",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Carts",
+      "item": [
+        {
+          "name": "Carts",
+          "item": [
+            {
+              "name": "New cart",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});\r",
+                      "let response = pm.response.json();\r",
+                      "pm.environment.set(\"id\", response.id);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"product_id\": \"01HHJC7RERZ0M3VDGS6X9HM33A\",\r\n  \"quantity\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Add item to cart",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"product_id\": \"01HHJC7RERZ0M3VDGS6X9HM33A\",\r\n  \"quantity\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts/{{id}}",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve a specific user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts/{{id}}",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete product from cart",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 204\", function () {\r",
+                      "    pm.response.to.have.status(204);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts/{{id}}/product/:productId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts",
+                    "{{id}}",
+                    "product",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "01HHJC7RERZ0M3VDGS6X9HM33A"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Cart",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts/{{id}}",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts",
+                    "{{id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update quantity of item in cart",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Resource not found\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"product_id\": \"01HHJC7RERZ0M3VDGS6X9HM33A\",\r\n  \"quantity\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/carts/{{id}}/product/quantity",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "carts",
+                    "{{id}}",
+                    "product",
+                    "quantity"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "categories",
+          "item": [
+            {
+              "name": "Store new category",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Function to generate random string\r",
+                      "function randomString(length) {\r",
+                      "    const chars = \"abcdefghijklmnopqrstuvwxyz\";\r",
+                      "    let result = \"\";\r",
+                      "    for (let i = 0; i < length; i++) {\r",
+                      "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+                      "    }\r",
+                      "    return result;\r",
+                      "}\r",
+                      "\r",
+                      "// Generate random category name\r",
+                      "let categoryName = \"category-\" + randomString(5);\r",
+                      "\r",
+                      "// Generate slug (URL friendly)\r",
+                      "let slug = categoryName.toLowerCase().replace(/\\s+/g, \"-\");\r",
+                      "\r",
+                      "// Save as environment variables\r",
+                      "pm.environment.set(\"category_name\", categoryName);\r",
+                      "pm.environment.set(\"category_slug\", slug);\r",
+                      "\r",
+                      "// Log to console (optional)\r",
+                      "console.log(\"Category Name:\", categoryName);\r",
+                      "console.log(\"Slug:\", slug);\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"{{category_name}}\",\r\n  \"slug\": \"{{category_slug}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific categories matching the search query",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/search?q=string",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all categories",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific category (including subcategories)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"id\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/tree/:categoryId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    "tree",
+                    ":categoryId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "categoryId",
+                      "value": "01KJ61D2ANKC2JXH23E4TFRDJE"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all categories (including subcategories)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/tree?by_category_slug=string",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    "tree"
+                  ],
+                  "query": [
+                    {
+                      "key": "by_category_slug",
+                      "value": "string"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update specific category",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"success\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"new category\",\r\n  \"slug\": \"new-category\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/:categoryId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    ":categoryId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "categoryId",
+                      "value": "01KJ61D2ANKC2JXH23E4TFRDJE"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Partially update specific category",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200));\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"success\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"new category\",\r\n  \"slug\": \"new-category\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/:categoryId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    ":categoryId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "categoryId",
+                      "value": "01KJ61D2ANKC2JXH23E4TFRDJF"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete specific category",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Forbidden\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/categories/:categoryId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "categories",
+                    ":categoryId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "categoryId",
+                      "value": "01KJ61D2ANKC2JXH23E4TFRDJF"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "Guest Invoices",
+          "item": [
+            {
+              "name": "Store new guest invoice",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Generate random number\r",
+                      "let randomNum = Math.floor(Math.random() * 10000);\r",
+                      "\r",
+                      "// Generate random email\r",
+                      "let randomEmail = \"guest\" + randomNum + \"@mail.com\";\r",
+                      "\r",
+                      "// Set environment variables\r",
+                      "pm.environment.set(\"guest_email\", randomEmail);\r",
+                      "\r",
+                      "// Optional dynamic values\r",
+                      "pm.environment.set(\"billing_street\", \"Street \" + randomNum);\r",
+                      "pm.environment.set(\"billing_city\", \"Lagos\");\r",
+                      "pm.environment.set(\"billing_state\", \"Lagos\");\r",
+                      "pm.environment.set(\"billing_country\", \"Nigeria\");\r",
+                      "pm.environment.set(\"billing_postal_code\", \"1000\" + randomNum);\r",
+                      "\r",
+                      "// If cart_id was saved earlier from create cart request,\r",
+                      "// it will already exist as {{cart_id}}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"billing_street\": \"{{billing_street}}\",\r\n  \"billing_city\": \"{{billing_city}}\",\r\n  \"billing_state\": \"{{billing_state}}\",\r\n  \"billing_country\": \"{{billing_country}}\",\r\n  \"billing_postal_code\": \"{{billing_postal_code}}\",\r\n  \"payment_method\": \"credit-card\",\r\n  \"payment_details\": {\r\n    \"monthly_installments\": \"3\"\r\n  },\r\n  \"cart_id\": \"{{cart_id}}\",\r\n  \"guest_email\": \"{{guest_email}}\",\r\n  \"guest_first_name\": \"Bolaji\",\r\n  \"guest_last_name\": \"QA\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/invoices",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Invoices",
+          "item": [
+            {
+              "name": "Store new invoice",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {\r",
+                      "    pm.response.to.have.status(404);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Requested item not found\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"billing_street\": \"string\",\r\n  \"billing_city\": \"string\",\r\n  \"billing_state\": \"string\",\r\n  \"billing_country\": \"string\",\r\n  \"billing_postal_code\": \"string\",\r\n  \"payment_method\": \"bank-transfer\",\r\n  \"payment_details\": {},\r\n  \"cart_id\": \"string\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update invoice status",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoiceId/status",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoiceId",
+                    "status"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoiceId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific invoice",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoiceId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoiceId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoiceId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update specific invoice",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoiceId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoiceId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoiceId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Partially update specific invoice",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoiceId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoiceId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoiceId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Download already generated PDF of a specific invoice",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoice_number/download-pdf",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoice_number",
+                    "download-pdf"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoice_number",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific invoices matching the search query",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/search?q=string&page=6826",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "string"
+                    },
+                    {
+                      "key": "page",
+                      "value": "6826"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all invoices",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices?page=6826",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "6826"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve the status of the PDF",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/invoices/:invoice_number/download-pdf-status",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoice_number",
+                    "download-pdf-status"
+                  ],
+                  "variable": [
+                    {
+                      "key": "invoice_number",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "check",
+          "item": [
+            {
+              "name": "Check payment",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"message\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"payment_method\": \"cash-on-delivery\",\r\n  \"payment_details\": {}\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/payment/check",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "payment",
+                    "check"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "products",
+          "item": [
+            {
+              "name": "Store new product",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Function to generate random string\r",
+                      "function randomString(length) {\r",
+                      "    const chars = \"abcdefghijklmnopqrstuvwxyz\";\r",
+                      "    let result = \"\";\r",
+                      "    for (let i = 0; i < length; i++) {\r",
+                      "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+                      "    }\r",
+                      "    return result;\r",
+                      "}\r",
+                      "\r",
+                      "// Random product name\r",
+                      "let productName = \"Product-\" + randomString(5);\r",
+                      "\r",
+                      "// Random description\r",
+                      "let description = \"This is a \" + randomString(10) + \" product\";\r",
+                      "\r",
+                      "// Random price between 1 and 100\r",
+                      "let price = (Math.random() * 100 + 1).toFixed(2);\r",
+                      "\r",
+                      "// Random IDs\r",
+                      "let categoryId = Math.random().toString(36).substring(2, 12);\r",
+                      "let brandId = Math.random().toString(36).substring(2, 12);\r",
+                      "let productImageId = Math.random().toString(36).substring(2, 12);\r",
+                      "\r",
+                      "// Random CO2 rating\r",
+                      "let ratings = [\"A\", \"B\", \"C\", \"D\"];\r",
+                      "let co2Rating = ratings[Math.floor(Math.random() * ratings.length)];\r",
+                      "\r",
+                      "// Save to environment variables\r",
+                      "pm.environment.set(\"product_name\", productName);\r",
+                      "pm.environment.set(\"description\", description);\r",
+                      "pm.environment.set(\"price\", price);\r",
+                      "pm.environment.set(\"category_id\", categoryId);\r",
+                      "pm.environment.set(\"brand_id\", brandId);\r",
+                      "pm.environment.set(\"product_image_id\", productImageId);\r",
+                      "pm.environment.set(\"co2_rating\", co2Rating);\r",
+                      "\r",
+                      "// Optional logs\r",
+                      "console.log(\"Generated Product:\", productName);"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"{{product_name}}\",\r\n  \"description\": \"{{description}}\",\r\n  \"price\": {{price}},\r\n  \"category_id\": \"{{category_id}}\",\r\n  \"brand_id\": \"{{brand_id}}\",\r\n  \"product_image_id\": \"{{product_image_id}}\",\r\n  \"is_location_offer\": false,\r\n  \"is_rental\": false,\r\n  \"co2_rating\": \"{{co2_rating}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseurl}}/products",
+                  "host": [
+                    "{{baseurl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve related products",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products/:productId/related",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products",
+                    ":productId",
+                    "related"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific product",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve specific products matching the search query",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products/search?q=string&page=6826",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "string"
+                    },
+                    {
+                      "key": "page",
+                      "value": "6826"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Retrieve all products",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products?by_brand=string&by_category=string&is_rental=string&eco_friendly=string&between=string&sort=string&page=6826",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "by_brand",
+                      "value": "string"
+                    },
+                    {
+                      "key": "by_category",
+                      "value": "string"
+                    },
+                    {
+                      "key": "is_rental",
+                      "value": "string"
+                    },
+                    {
+                      "key": "eco_friendly",
+                      "value": "string"
+                    },
+                    {
+                      "key": "between",
+                      "value": "string"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string"
+                    },
+                    {
+                      "key": "page",
+                      "value": "6826"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update specific product",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products/:productId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete specific product",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products/:productId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Partially update specific product",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/products/:productId",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Search Reports",
+          "item": [
+            {
+              "name": "Get top 10 purchased products",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Forbidden\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/top10-purchased-products",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "top10-purchased-products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get top 10 best selling categories",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Forbidden\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/top10-best-selling-categories",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "top10-best-selling-categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get customers by country",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Forbidden\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/customers-by-country",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "customers-by-country"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get average sales per month",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Forbidden\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/average-sales-per-month?year=2021",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "average-sales-per-month"
+                  ],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "2021"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get total sales per country",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/total-sales-per-country",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "total-sales-per-country"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get total sales of years",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/total-sales-of-years?years=2",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "total-sales-of-years"
+                  ],
+                  "query": [
+                    {
+                      "key": "years",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get average sales per week",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 401\", function () {\r",
+                      "    pm.response.to.have.status(401);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/reports/average-sales-per-week?year=2021",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "reports",
+                    "average-sales-per-week"
+                  ],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "2021"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Totp",
+      "item": [
+        {
+          "name": "setup",
+          "item": [
+            {
+              "name": "Setup TOTP for the authenticated user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 403\", function () {\r",
+                      "    pm.response.to.have.status(403);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"access_token\": \"string\",\r\n  \"totp\": \"123456\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/totp/setup",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "totp",
+                    "setup"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "verify",
+          "item": [
+            {
+              "name": "Verify TOTP code for the authenticated user",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 500\", function () {\r",
+                      "    pm.response.to.have.status(500);\r",
+                      "});\r",
+                      "pm.test(\"Body matches string\", function () {\r",
+                      "    pm.expect(pm.response.text()).to.include(\"utf-8\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"access_token\": \"string\",\r\n  \"totp\": \"123456\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.practicesoftwaretesting.com/totp/verify",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "practicesoftwaretesting",
+                    "com"
+                  ],
+                  "path": [
+                    "totp",
+                    "verify"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
