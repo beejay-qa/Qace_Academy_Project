@@ -1,91 +1,38 @@
-name: API Test Automation Pipeline
+cat > api-tests.yml << 'EOF'
+name: API Test Automation
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:  # Allows manual trigger
+    branches: [ master ]
 
 jobs:
   test:
-    name: Run Postman API Tests
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           
-      - name: Install Newman and Reporters
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-htmlextra
+      
+      - name: Run API Tests
         run: |
-          npm install -g newman
-          npm install -g newman-reporter-html
-          npm install -g newman-reporter-htmlextra
-
-      - name: List Files (Debug)
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in directory:"
-          ls -la
-          echo "Looking for collection and environment files..."
-          find . -name "*.postman_collection.json" -o -name "*.json" | head -10
-
-      - name: Run Postman Tests
-        id: run-tests
-        continue-on-error: true
-        run: |
-          # Try to find collection and environment files
-          COLLECTION_FILE=$(find . -name "*.postman_collection.json" | head -1)
-          ENV_FILE=$(find . -name "*.postman_environment.json" | head -1)
-          DATA_FILE=$(find . -name "*.csv" -o -name "*.json" | grep -v "postman_environment" | head -1)
-          
-          if [ -z "$COLLECTION_FILE" ]; then
-            echo "❌ No Postman collection file found!"
-            exit 1
-          fi
-          
-          echo "✅ Found collection: $COLLECTION_FILE"
-          
-          # Build command
-          CMD="newman run \"$COLLECTION_FILE\""
-          
-          if [ ! -z "$ENV_FILE" ]; then
-            echo "✅ Found environment: $ENV_FILE"
-            CMD="$CMD -e \"$ENV_FILE\""
-          fi
-          
-          if [ ! -z "$DATA_FILE" ]; then
-            echo "✅ Found data file: $DATA_FILE"
-            CMD="$CMD -d \"$DATA_FILE\""
-          fi
-          
-          # Add reporters and options
-          CMD="$CMD --reporters cli,html,htmlextra"
-          CMD="$CMD --reporter-html-export test-results.html"
-          CMD="$CMD --reporter-htmlextra-export htmlextra-report.html"
-          CMD="$CMD --color on"
-          
-          echo "🚀 Running command: $CMD"
-          eval $CMD
-
-      - name: Upload Test Results
+          newman run Project.postman_collection.json \
+            -e Project.postman_environment.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export test-report.html
+      
+      - name: Upload Test Report
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
-          path: |
-            *.html
-            newman/
-          if-no-files-found: warn
-
-      - name: Check Test Status
-        if: steps.run-tests.outcome == 'failure'
-        run: |
-          echo "❌ API Tests Failed!"
-          exit 1
+          name: test-report
+          path: test-report.html
+EOF
